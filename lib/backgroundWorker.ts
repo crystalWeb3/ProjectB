@@ -3,6 +3,8 @@ import { globalData } from '../dataStore';
 import { fetchTonyBetData, fetchFootballBothScoreTony } from '../dataFetcher';
 import {startX3000Bot, getX3000Data} from './x3000_back'
 
+let backgroundWorkerInterval: NodeJS.Timeout | null = null
+
 const makeListFromName = (name: string): string[] => {
   // Replace '-' with spaces, remove non-alphabetic characters, and split into words
   name = name.replace(/-/g, ' ');
@@ -19,16 +21,19 @@ const isSameGame = (listA: string[], listB: string[]): boolean => {
   return matchCount > 0 && smallerLength / matchCount <= 2;
 };
 
-const calcArbitrageBothScore = (): any[] => {
+const calcArbitrageBothScore = (tonyData: any, x3000Data: any): any[] => {
   const arbitrages: any[] = [];
   const compareKeys = ['dnb', 'btts'];
 
-  globalData.x3000Data.forEach((xd: any) => {
-    globalData.footballBothScoreData.forEach((tb: any) => {
+  x3000Data.forEach((xd: any) => {
+    tonyData.forEach((tb: any) => {
       if (
         isSameGame(tb.nameList, xd.nameList) &&
         xd.sport.toLowerCase() === 'football'
       ) {
+        // console.log(tb)
+        // console.log(xd)
+        // console.log("- - - - - - - - - - - - - - - - - - - ")
         compareKeys.forEach((key) => {
           if (tb[key] && xd[key]) {
             const tbOdds = tb[key];
@@ -43,7 +48,7 @@ const calcArbitrageBothScore = (): any[] => {
               const x3000Pro1 = 1.0 / xdOdd1;
               const x3000Pro2 = 1.0 / xdOdd2;
 
-              if (tonyPro1 + x3000Pro2 < 1 || tonyPro2 + x3000Pro1 < 1) {
+              if (true) {
                 const arbitrage = {
                   name: xd.name,
                   sport: xd.sport,
@@ -73,37 +78,42 @@ const calcArbitrageBothScore = (): any[] => {
       }
     });
   });
-
+  // console.log(arbitrages)
   return arbitrages;
 };
 
 const updateGlobalData = async () => {
   try {
-    const footballBothScoreData = await fetchFootballBothScoreTony();
-    console.log('Fetched Football Data:', footballBothScoreData);
+    let tonyData = await fetchFootballBothScoreTony();
+    // console.log('Fetched Football Data:', tonyData);
 
-    if (!Array.isArray(footballBothScoreData)) {
+    if (!Array.isArray(tonyData)) {
       throw new Error('fetchFootballBothScoreTony returned a non-array value');
     }
 
-    globalData.footballBothScoreData = footballBothScoreData.map((game: any) => ({
+    tonyData = tonyData.map((game: any) => ({
       ...game,
       nameList: game.name ? makeListFromName(game.name) : [],
     }));
 
-    const x3000Data = getX3000Data();
+    let x3000Data = getX3000Data();
     if (!Array.isArray(x3000Data)) {
       throw new Error('getX3000Data returned a non-array value');
     }
 
-    globalData.x3000Data = x3000Data.map((game: any) => ({
+    x3000Data = x3000Data.map((game: any) => ({
       ...game,
       nameList: game.name ? makeListFromName(game.name) : [],
     }));
 
-    const results = calcArbitrageBothScore();
+    // console.log(tonyData)
+    // console.log(x3000Data)
+
+    const results = calcArbitrageBothScore(tonyData, x3000Data);
     if (results.length) {
-      console.log('Arbitrage Opportunities:', results);
+      console.log(results.length)
+      globalData.opps = results
+      // console.log('Arbitrage Opportunities:', results);
     } else {
       console.log('No arbitrage opportunities found.');
     }
@@ -113,11 +123,21 @@ const updateGlobalData = async () => {
 };
 
 
-
-
-// Background worker that keeps fetching data periodically
 export const startBackgroundWorker = () => {
-    startX3000Bot()
-  setInterval(updateGlobalData, 2000); 
+  startX3000Bot()
+  backgroundWorkerInterval  = setInterval(updateGlobalData, 2000); 
+  console.log(backgroundWorkerInterval)
   console.log('Background worker started');
 };
+
+export const endBackgroundWorker = () => {
+  console.log(backgroundWorkerInterval)
+  if (backgroundWorkerInterval) {
+    clearInterval(backgroundWorkerInterval); 
+    backgroundWorkerInterval = null; 
+    console.log('Background worker stopped');
+  } else {
+    console.log('No background worker is running');
+  }
+
+}

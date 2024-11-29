@@ -1,9 +1,5 @@
 export let globalData: {
-  tonybetData: any[];
-  footballBothScoreData: any[];
-  x3000Data: any[];
+  opps: any[]
 } = {
-  tonybetData: [],
-  footballBothScoreData: [],
-  x3000Data: []
+  opps: []
 };
