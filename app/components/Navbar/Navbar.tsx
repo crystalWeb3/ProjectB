@@ -1,6 +1,6 @@
 "use client";
 import { Disclosure } from "@headlessui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import CustomLink from "../utils/CustomLink";
 import Drawer from "./Drawer";
@@ -47,12 +47,12 @@ const Navbar = () => {
   const pathname = usePathname(); // Get current path
   const { token, user } = useAuth();
   const [activeSection, setActiveSection] = useState("");
-  const navigation: NavigationItem[] = [
+  const navigation = useMemo(() => [
     { id: "home", name: "Home", href: "/main/home", current: false },
     // { id: 'howitworks', name: 'How To Order', href: '/main/home#howitworks', current: false },
     { id: "services", name: "Services", href: "/main/service", current: false },
     // { id: 'pledge', name: 'Our Pledge To You', href: '/main/pledge', current: false },
-  ];
+  ], []);
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {

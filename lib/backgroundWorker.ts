@@ -80,15 +80,25 @@ const calcArbitrageBothScore = (): any[] => {
 const updateGlobalData = async () => {
   try {
     const footballBothScoreData = await fetchFootballBothScoreTony();
+    console.log('Fetched Football Data:', footballBothScoreData);
+
+    if (!Array.isArray(footballBothScoreData)) {
+      throw new Error('fetchFootballBothScoreTony returned a non-array value');
+    }
+
     globalData.footballBothScoreData = footballBothScoreData.map((game: any) => ({
       ...game,
-      nameList: makeListFromName(game.name),
+      nameList: game.name ? makeListFromName(game.name) : [],
     }));
 
     const x3000Data = getX3000Data();
+    if (!Array.isArray(x3000Data)) {
+      throw new Error('getX3000Data returned a non-array value');
+    }
+
     globalData.x3000Data = x3000Data.map((game: any) => ({
       ...game,
-      nameList: makeListFromName(game.name),
+      nameList: game.name ? makeListFromName(game.name) : [],
     }));
 
     const results = calcArbitrageBothScore();
@@ -101,6 +111,8 @@ const updateGlobalData = async () => {
     console.error('Error updating data:', error);
   }
 };
+
+
 
 
 // Background worker that keeps fetching data periodically

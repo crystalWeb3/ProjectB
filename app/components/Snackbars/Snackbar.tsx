@@ -72,7 +72,7 @@ const Snackbar = ({ message, state = 'success', duration = 1500, type = 'light',
       clearSnackbar()
     }, 1200);
     return () => clearTimeout(timer);
-  }, []);
+  }, [progress]);
   let isIconColored = type === 'light' || type === 'dark' ? true : false
   // if(visible === false) return <></>
   return (

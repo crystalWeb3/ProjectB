@@ -34,7 +34,7 @@ const Index = () => {
         if(user) {
             getOrders(String(0), String(10));
         }
-    }, [])
+    }, [user])
     useEffect(() => {
         // console.log(orders)
         let newOrders = orders.map(order => {

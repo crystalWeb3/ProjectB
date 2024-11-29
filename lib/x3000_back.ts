@@ -155,8 +155,9 @@ export const startX3000Bot = async (): Promise<void> => {
   while (true) {
     await fetchFootballBothScoreX3000();
     x3000List = Object.entries(x3000Mp).map(([key, value]) => ({
-      id: key,
       ...value,
+      id: key,
+      
     }));
     await new Promise((resolve) => setTimeout(resolve, 1000)); // 1-second delay
   }

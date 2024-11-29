@@ -17,7 +17,7 @@ const Index = ({children, classname} : { children?: React.ReactNode, classname?:
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         }
-    }, [])
+    }, [modalRef])
     if(isModal === false) return <></>
     return (
         <div className="fixed top-0 left-0 right-0 bottom-0 z-[1000] bg-[#00000050]">

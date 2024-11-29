@@ -12,7 +12,7 @@ const Header = () => {
             <div className="flex flex-col 2xl:flex-row 2xl:items-start md:px-[10%] lg:px-[10%] xl:px-[6%] gap-8 lg:gap-5 z-40">
                 <div className="2xl:w-[50%] flex flex-col items-center md:items-start gap-2 sm:gap-3 md:gap-4 lg:gap-5 text-center lg:text-start p-5 pt-3 pb-0 z-40">
                     <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-darkpurple lg:leading-tight">
-                        Don't Miss Your Opportunities with Real Live Betting
+                        Do not Miss Your Opportunities with Real Live Betting
                     </h1>
                     <p className="text-xl lg:text-2xl text-[#595959] lg:leading-tight">
                         MissilBets will provide you great Opportunities to win every time for every case with live action.

@@ -13,7 +13,7 @@ const Index = () => {
             return () => {
             clearTimeout(timeoutId); // Clears the timeout
             };
-        }, []); 
+        }, [router]); 
         return (
         <div className="w-full h-[100vh] relative overflow-hidden">
             <div className="h-full w-full flex flex-col gap-3 items-center mt-[17vh]">
