@@ -1,5 +1,5 @@
 {
-  "name": "MissilBets",
+  "name": "missilbet",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -26,7 +26,7 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "mongoose": "^8.8.1",
-    "next": "^14.2.18",
+    "next": "^15.0.3",
     "next-auth": "^4.24.10",
     "postcss": "^8.4.49",
     "react": "18.2.0",
@@ -34,10 +34,12 @@
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
     "tailwindcss": "3.3.2",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "uui": "^1.0.7"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
-    "@types/react-slick": "^0.23.10"
+    "@types/react-slick": "^0.23.10",
+    "@types/uuid": "^10.0.0"
   }
 }
