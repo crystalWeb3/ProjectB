@@ -157,8 +157,7 @@ export const startX3000Bot = async (): Promise<void> => {
     x3000List = Object.entries(x3000Mp).map(([key, value]) => ({
       ...value,
       id: key,      
-    }));
-    console.log(x3000List[0]?.time)
+    }));    
     await new Promise((resolve) => setTimeout(resolve, 1000)); // 1-second delay
   }
 };

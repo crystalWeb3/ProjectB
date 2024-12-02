@@ -97,8 +97,7 @@ const calcArbitrage = (casinos: any): any[] => {
           ) {
             compareKeys.forEach((key) => {
              
-              if (tb[key] && xd[key]) {
-                console.log(key)
+              if (tb[key] && xd[key]) {                
                 const tbOdds = tb[key];
                 const xdOdds = xd[key];
     
@@ -154,14 +153,13 @@ const calcArbitrage = (casinos: any): any[] => {
   }
 
   
-  // console.log(arbitrages)
   return arbitrages;
 };
 
 const updateGlobalData = async () => {
   try {
     let tonyData = getTonyData();
-    // console.log('Fetched Football Data:', tonyData);
+  
 
     if (!Array.isArray(tonyData)) {
       throw new Error('fetchFootballBothScoreTony returned a non-array value');
@@ -184,8 +182,7 @@ const updateGlobalData = async () => {
     }));
     let casinoData: Record<string, any> = {}
     
-    // console.log(tonyData)
-    // console.log(x3000Data)
+    
     casinoData['x3000'] = x3000Data
     casinoData['tony'] = tonyData
 
@@ -197,9 +194,9 @@ const updateGlobalData = async () => {
 
     const results = calcArbitrage(casinos);
     if (results.length) {
-      console.log(results.length)
+      
       globalData.opps = results
-      // console.log('Arbitrage Opportunities:', results);
+      
     } else {
       console.log('No arbitrage opportunities found.');
     }
