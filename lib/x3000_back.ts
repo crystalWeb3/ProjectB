@@ -125,12 +125,11 @@ const fetchFootballById = async (
         score,
         [betId]: oddData,
       };
+    
 
-      if (x3000Mp[strId]) {
-        x3000Mp[strId][betId] = oddData;
-      } else {
+     
         x3000Mp[strId] = midData;
-      }
+     
     });
   } catch (error) {
     console.error('Failed to fetch football by ID:', error);
@@ -154,11 +153,12 @@ export const startX3000Bot = async (): Promise<void> => {
 
   while (true) {
     await fetchFootballBothScoreX3000();
+    
     x3000List = Object.entries(x3000Mp).map(([key, value]) => ({
       ...value,
-      id: key,
-      
+      id: key,      
     }));
+    console.log(x3000List[0]?.time)
     await new Promise((resolve) => setTimeout(resolve, 1000)); // 1-second delay
   }
 };

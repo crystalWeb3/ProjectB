@@ -1,9 +1,9 @@
 // lib/backgroundWorker.ts
 import { globalData } from '../dataStore';
-import { fetchTonyBetData, fetchFootballBothScoreTony } from '../dataFetcher';
+import { startTonyBot, getTonyData } from './tony_back';
 import {startX3000Bot, getX3000Data} from './x3000_back'
 
-let backgroundWorkerInterval: NodeJS.Timeout | null = null
+let backgroundWorkerInterval: any
 
 const makeListFromName = (name: string): string[] => {
   // Replace '-' with spaces, remove non-alphabetic characters, and split into words
@@ -82,9 +82,85 @@ const calcArbitrageBothScore = (tonyData: any, x3000Data: any): any[] => {
   return arbitrages;
 };
 
+const calcArbitrage = (casinos: any): any[] => {
+  const arbitrages: any[] = [];
+  const compareKeys = ['dnb', 'btts'];
+
+  for (let i = 0; i < casinos?.length; i ++) {
+    for(let j = i + 1; j < casinos?.length; j ++) {
+      let firstCasino = casinos[i]
+      let secondCasino = casinos[j]
+      firstCasino?.data?.forEach((xd: any) => {
+        secondCasino?.data?.forEach((tb: any) => {
+          if (
+            isSameGame(tb.nameList, xd.nameList)
+          ) {
+            compareKeys.forEach((key) => {
+             
+              if (tb[key] && xd[key]) {
+                console.log(key)
+                const tbOdds = tb[key];
+                const xdOdds = xd[key];
+    
+                if (tbOdds.length === 2 && xdOdds.length === 2) {
+                  const [tbOdd1, tbOdd2] = tbOdds;
+                  const [xdOdd1, xdOdd2] = xdOdds;
+    
+                  const tonyPro1 = 1.0 / tbOdd1;
+                  const tonyPro2 = 1.0 / tbOdd2;
+                  const x3000Pro1 = 1.0 / xdOdd1;
+                  const x3000Pro2 = 1.0 / xdOdd2;
+    
+                  if (true) {
+                    const arbitrage = {
+                      name: xd.name,
+                      sport: xd.sport,
+                      time: xd.time,
+                      type: key,
+                      casinos: {first: firstCasino?.name, second: secondCasino?.name},
+                      odds: {
+                        first: [tbOdd1, tbOdd2],
+                        second: [xdOdd1, xdOdd2]
+                      },
+                      stake: {
+                        first: tonyPro1 + x3000Pro2 < 1
+                        ? `1: ${(tonyPro1 / (tonyPro1 + x3000Pro2) * 100).toFixed(2)}`
+                        : `2: ${(tonyPro2 / (tonyPro2 + x3000Pro1) * 100).toFixed(2)}`,
+                        second: tonyPro1 + x3000Pro2 < 1
+                        ? `2: ${(x3000Pro2 / (tonyPro1 + x3000Pro2) * 100).toFixed(2)}`
+                        : `1: ${(x3000Pro1 / (tonyPro2 + x3000Pro1) * 100).toFixed(2)}`
+                      },
+                      profit: {
+                        first: tonyPro1 + x3000Pro2 < 1
+                        ? `1: ${((tbOdd1 * (tonyPro1 / (tonyPro1 + x3000Pro2) * 100)) - 100).toFixed(2)}`
+                        : `2: ${((tbOdd2 * (tonyPro2 / (tonyPro2 + x3000Pro1) * 100)) - 100).toFixed(2)}`,
+                        second:  tonyPro1 + x3000Pro2 < 1
+                        ? `2: ${((xdOdd2 * (x3000Pro2 / (tonyPro1 + x3000Pro2) * 100)) - 100).toFixed(2)}`
+                        : `1: ${((xdOdd1 * (x3000Pro1 / (tonyPro2 + x3000Pro1) * 100)) - 100).toFixed(2)}`
+                      }
+                    };
+    
+                    arbitrages.push(arbitrage);
+                  }
+                }
+              }
+            });
+          }
+        });
+      });
+
+    }
+
+  }
+
+  
+  // console.log(arbitrages)
+  return arbitrages;
+};
+
 const updateGlobalData = async () => {
   try {
-    let tonyData = await fetchFootballBothScoreTony();
+    let tonyData = getTonyData();
     // console.log('Fetched Football Data:', tonyData);
 
     if (!Array.isArray(tonyData)) {
@@ -97,6 +173,7 @@ const updateGlobalData = async () => {
     }));
 
     let x3000Data = getX3000Data();
+    
     if (!Array.isArray(x3000Data)) {
       throw new Error('getX3000Data returned a non-array value');
     }
@@ -105,11 +182,20 @@ const updateGlobalData = async () => {
       ...game,
       nameList: game.name ? makeListFromName(game.name) : [],
     }));
-
+    let casinoData: Record<string, any> = {}
+    
     // console.log(tonyData)
     // console.log(x3000Data)
+    casinoData['x3000'] = x3000Data
+    casinoData['tony'] = tonyData
 
-    const results = calcArbitrageBothScore(tonyData, x3000Data);
+    let casinos = Object.entries(casinoData).map(([key, value]) => ({
+      data: value,
+      name: key,
+      id: key,      
+    }))
+
+    const results = calcArbitrage(casinos);
     if (results.length) {
       console.log(results.length)
       globalData.opps = results
@@ -125,7 +211,18 @@ const updateGlobalData = async () => {
 
 export const startBackgroundWorker = () => {
   startX3000Bot()
-  backgroundWorkerInterval  = setInterval(updateGlobalData, 2000); 
+  startTonyBot()
+  console.log("Clear")
+  console.log(backgroundWorkerInterval)
+  if(backgroundWorkerInterval) {
+    clearInterval(backgroundWorkerInterval); 
+    console.log('Background worker stopped');
+  }
+  else {
+    backgroundWorkerInterval  = setInterval(updateGlobalData, 500); 
+  }
+  
+  
   console.log(backgroundWorkerInterval)
   console.log('Background worker started');
 };

@@ -8,6 +8,8 @@ interface OppData {
     sport: string;
     time: string;
     type: string;
+    casinoFirst: string;
+    casinoSecond: string;
     tbOdds: string;
     xdOdds: string;
     tbStake: string;
@@ -39,8 +41,24 @@ const Test = () => {
                 method: "GET",
             });
             const result = await res.json();
-            console.log(result.data.opps);
-            setData(result.data.opps || []); // Update the state with fetched opps array
+
+            // Transform API response into the desired format
+            const transformedData = result.data.opps.map((opp: any) => ({
+                name: opp.name,
+                sport: opp.sport,
+                time: opp.time,
+                type: opp.type,
+                casinoFirst: opp.casinos.first,
+                casinoSecond: opp.casinos.second,
+                tbOdds: opp.odds.first.join(' / '), // Format odds
+                xdOdds: opp.odds.second.join(' / '),
+                tbStake: opp.stake.first,
+                xdStake: opp.stake.second,
+                tbProfit: opp.profit.first,
+                xdProfit: opp.profit.second,
+            }));
+
+            setData(transformedData);
         } catch (error: any) {
             console.log(error);
         }
@@ -49,7 +67,7 @@ const Test = () => {
     useEffect(() => {
         const interval = setInterval(async () => {
             await getData();
-        }, 2000);
+        }, 500);
 
         return () => clearInterval(interval); // Cleanup interval on component unmount
     }, []);
@@ -63,34 +81,43 @@ const Test = () => {
             {/* Render data as a table */}
             <div className="mt-4">
                 {data.length > 0 ? (
-                    <table className="table-auto border-collapse border border-gray-300 w-full text-left">
+                    <table className="table-auto w-full text-left">
                         <thead>
                             <tr>
-                                <th className="border border-gray-300 px-4 py-2">Name</th>
-                                <th className="border border-gray-300 px-4 py-2">Sport</th>
-                                <th className="border border-gray-300 px-4 py-2">Time</th>
-                                <th className="border border-gray-300 px-4 py-2">Type</th>
-                                <th className="border border-gray-300 px-4 py-2">TB Odds</th>
-                                <th className="border border-gray-300 px-4 py-2">XD Odds</th>
-                                <th className="border border-gray-300 px-4 py-2">TB Stake</th>
-                                <th className="border border-gray-300 px-4 py-2">XD Stake</th>
-                                <th className="border border-gray-300 px-4 py-2">TB Profit</th>
-                                <th className="border border-gray-300 px-4 py-2">XD Profit</th>
+                                <th className=" px-4 py-2">Name</th>
+                                <th className=" px-4 py-2">Sport</th>
+                                <th className=" px-4 py-2">Time</th>
+                                <th className=" px-4 py-2">Type</th>
+                                <th className=" px-4 py-2">Casino 1</th>
+                                
+                                <th className=" px-4 py-2">Odds</th>                                
+                                <th className=" px-4 py-2">Stake</th>                                
+                                <th className=" px-4 py-2">Profit</th>                                
                             </tr>
                         </thead>
                         <tbody>
                             {data.map((item, index) => (
                                 <tr key={index}>
-                                    <td className="border border-gray-300 px-4 py-2">{item.name}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.sport}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.time}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.type}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.tbOdds}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.xdOdds}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.tbStake}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.xdStake}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.tbProfit}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{item.xdProfit}</td>
+                                    <td className=" px-4 py-2">{item.name}</td>
+                                    <td className=" px-4 py-2">{item.sport}</td>
+                                    <td className=" px-4 py-2">{item.time}</td>
+                                    <td className=" px-4 py-2">{item.type}</td>
+                                    <td className=" px-4 py-2">
+                                        <div>{item.casinoFirst}</div> 
+                                        <div>{item.casinoSecond}</div>    
+                                    </td>
+                                    <td className=" px-4 py-2">
+                                        <div>{item.tbOdds}</div> 
+                                        <div>{item.xdOdds}</div>    
+                                    </td>
+                                    <td className=" px-4 py-2">
+                                        <div>{item.tbStake}</div> 
+                                        <div>{item.xdStake}</div>    
+                                    </td>
+                                    <td className=" px-4 py-2">
+                                        <div>{item.tbProfit}</div> 
+                                        <div>{item.xdProfit}</div>    
+                                    </td>                                                                  
                                 </tr>
                             ))}
                         </tbody>
