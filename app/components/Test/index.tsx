@@ -41,6 +41,7 @@ const Test = () => {
                 method: "GET",
             });
             const result = await res.json();
+            console.log(result)
 
             // Transform API response into the desired format
             const transformedData = result.data.opps.map((opp: any) => ({
@@ -48,29 +49,52 @@ const Test = () => {
                 sport: opp.sport,
                 time: opp.time,
                 type: opp.type,
-                casinoFirst: opp.casinos.first,
-                casinoSecond: opp.casinos.second,
-                tbOdds: opp.odds.first.join(' / '), // Format odds
-                xdOdds: opp.odds.second.join(' / '),
-                tbStake: opp.stake.first,
-                xdStake: opp.stake.second,
-                tbProfit: opp.profit.first,
-                xdProfit: opp.profit.second,
-            }));
-
+                casinoFirst: opp?.casinos?.first,
+                casinoSecond: opp?.casinos?.second,
+                tbOdds: opp?.odds?.first?.join(' / '), // Format odds
+                xdOdds: opp?.odds?.second?.join(' / '),
+                tbStake: opp?.stake?.first,
+                xdStake: opp?.stake?.second,
+                tbProfit: opp?.profit?.first,
+                xdProfit: opp?.profit?.second,
+            }));            
             setData(transformedData);
+           
         } catch (error: any) {
             console.log(error);
+            
+            setData([])
         }
     };
 
     useEffect(() => {
-        const interval = setInterval(async () => {
+        const interval = setInterval(async () => {            
             await getData();
         }, 2000);
 
         return () => clearInterval(interval); // Cleanup interval on component unmount
     }, []);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: any) => {
+          // You can add any cleanup or tracking logic here
+          console.log('User is leaving the page');
+          endService()
+    
+          
+          
+        };
+    
+        // Attach the event listener
+        window.addEventListener('beforeunload', handleBeforeUnload);
+    
+        // Cleanup the event listener on component unmount
+        return () => {
+          window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+      }, []);
+
+    
 
     return (
         <div className="relative ctm-container pt-[135px] sm:pt-[140px] md:pt-[160px] lg:pt-[220px] sm:mb-[30px]">

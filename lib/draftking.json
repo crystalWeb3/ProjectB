@@ -1,0 +1,230 @@
+{
+    "featuredDisplayGroup": {
+      "name": "Soccer",
+      "displayGroupId": "1",
+      "featuredSubcategories": [
+        {
+          "subcategoryName": "Moneyline (Regular Time)",
+          "subcategoryId": 4514,
+          "featuredEventGroupSubcategories": [
+            {
+              "eventGroupId": "41257",
+              "eventGroupName": "Bulgaria - First League",
+              "name": "Moneyline (Regular Time)",
+              "subcategoryId": 4514,
+              "componentId": 11,
+              "offers": [
+                [
+                  {
+                    "providerOfferId": "1_77808182",
+                    "eventId": "31464976",
+                    "eventGroupId": "41257",
+                    "label": "Moneyline",
+                    "isSuspended": false,
+                    "isOpen": true,
+                    "offerSubcategoryId": 4514,
+                    "isSubcategoryFeatured": false,
+                    "betOfferTypeId": 2,
+                    "outcomes": [
+                      {
+                        "providerOutcomeId": "0ML77808182_1",
+                        "providerId": 2,
+                        "providerOfferId": "1_77808182",
+                        "label": "Slavia Sofia",
+                        "oddsAmerican": "+320",
+                        "oddsDecimal": 4.2,
+                        "oddsDecimalDisplay": "4.20",
+                        "oddsFractional": "16/5",
+                        "participant": "Slavia Sofia",
+                        "participantType": "Team",
+                        "main": true,
+                        "tags": []
+                      },
+                      {
+                        "providerOutcomeId": "0ML77808182_2",
+                        "providerId": 2,
+                        "providerOfferId": "1_77808182",
+                        "label": "Draw",
+                        "oddsAmerican": "-350",
+                        "oddsDecimal": 1.28571429,
+                        "oddsDecimalDisplay": "1.28",
+                        "oddsFractional": "2/7",
+                        "participantType": "Team",
+                        "main": true,
+                        "tags": []
+                      },
+                      {
+                        "providerOutcomeId": "0ML77808182_3",
+                        "providerId": 2,
+                        "providerOfferId": "1_77808182",
+                        "label": "Hebar Pazardzhik",
+                        "oddsAmerican": "+1500",
+                        "oddsDecimal": 16,
+                        "oddsDecimalDisplay": "16.00",
+                        "oddsFractional": "15/1",
+                        "participant": "Hebar Pazardzhik",
+                        "participantType": "Team",
+                        "main": true,
+                        "tags": []
+                      }
+                    ],
+                    "offerSequence": 0,
+                    "displayGroupId": "1",
+                    "main": false,
+                    "tags": [
+                      "PrimaryMarket",
+                      "Cashout",
+                      "FeaturedSubcategory",
+                      "Default"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "eventGroupId": "44067",
+              "eventGroupName": "Poland - Cup"
+            }
+          ],
+          "events": [
+            {
+              "eventId": "31464976",
+              "displayGroupId": "1",
+              "eventGroupId": "41257",
+              "eventGroupName": "Bulgaria - First League",
+              "name": "Slavia Sofia vs Hebar Pazardzhik",
+              "nameIdentifier": "Slavia Sofia vs Hebar Pazardzhik",
+              "startDate": "2024-12-05T13:00:00.0000000Z",
+              "teamName1": "Slavia Sofia",
+              "teamName2": "Hebar Pazardzhik",
+              "teamShortName1": "",
+              "teamShortName2": "",
+              "team1": {
+                "teamId": 302647,
+                "name": "Slavia Sofia"
+              },
+              "team2": {
+                "name": "Hebar Pazardzhik"
+              },
+              "eventStatus": {
+                "state": "STARTED",
+                "isClockDisabled": false,
+                "period": "2nd Half",
+                "minute": 85,
+                "second": 23,
+                "isClockRunning": true,
+                "homeTeamScore": "2",
+                "awayTeamScore": "2"
+              },
+              "eventScorecard": {
+                "mainScorecard": {
+                  "intervalName": "",
+                  "intervalNumber": 2147483647,
+                  "firstTeamScore": "2",
+                  "secondTeamScore": "2"
+                },
+                "scoreCards": [
+                  {
+                    "intervalName": "",
+                    "intervalNumber": 2147483647,
+                    "firstTeamScore": "2",
+                    "secondTeamScore": "2"
+                  }
+                ],
+                "scorecardComponentId": 1
+              },
+              "mediaList": [
+                {
+                  "mediaProviderName": "IMG",
+                  "mediaId": "466188",
+                  "mediaTypeName": "LiveStreaming",
+                  "metadata": {
+  
+                  },
+                  "updatedAt": "2024-12-05T14:43:38.9595108Z",
+                  "allowedDmas": []
+                },
+                {
+                  "mediaProviderName": "BetRadarStats",
+                  "mediaId": "50748565",
+                  "mediaTypeName": "Stats",
+                  "metadata": {
+  
+                  },
+                  "updatedAt": "2024-12-05T14:43:38.9595108Z",
+                  "allowedDmas": []
+                },
+                {
+                  "mediaProviderName": "BetRadarV3",
+                  "mediaId": "50748565",
+                  "mediaTypeName": "MatchTracker",
+                  "metadata": {
+                    "betRadarCoverage": "3"
+                  },
+                  "updatedAt": "2024-12-05T14:43:38.9595108Z",
+                  "allowedDmas": []
+                },
+                {
+                  "mediaProviderName": "BetRadarV3",
+                  "mediaId": "50748565",
+                  "mediaTypeName": "Scoreboard",
+                  "metadata": {
+                    "betRadarCoverage": "3"
+                  },
+                  "updatedAt": "2024-12-05T14:43:38.9595108Z",
+                  "allowedDmas": []
+                }
+              ],
+              "liveBettingOffered": false,
+              "liveBettingEnabled": false,
+              "tags": [
+                "FeaturedSubcategory",
+                "LiveStreaming",
+                "MatchTracker",
+                "Scoreboard",
+                "Stats"
+              ],
+              "flashBetOfferCount": 0,
+              "eventMetadata": {
+                "participantMetadata": {
+  
+                }
+              }
+            }
+          ]
+        },
+        {
+          "subcategoryName": "Draw No Bet (Regular Time)",
+          "subcategoryId": 6497
+        },
+        {
+          "subcategoryName": "Next Goal",
+          "subcategoryId": 6007
+        },
+        {
+          "subcategoryName": "Moneyline (3-Way)",
+          "subcategoryId": 11273
+        },
+        {
+          "subcategoryName": "Correct Score",
+          "subcategoryId": 5844
+        },
+        {
+          "subcategoryName": "Double Chance",
+          "subcategoryId": 8068
+        },
+        {
+          "subcategoryName": "Total Team Goals",
+          "subcategoryId": 5549
+        },
+        {
+          "subcategoryName": "Asian Handicap",
+          "subcategoryId": 5899
+        },
+        {
+          "subcategoryName": "Asian Total",
+          "subcategoryId": 5701
+        }
+      ]
+    }
+  }

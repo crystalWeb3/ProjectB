@@ -28,59 +28,6 @@ const footballX3000List: FootballX3000[] = [
   { name: 'Draw_No_Bet', betId: 'dnb', category: 11929, criterionId: 1001159666 },  
 ];
 
-// Fetch x3000 main data
-export const fetchX3000 = async (): Promise<X3000Data[]> => {
-  const url =
-    'https://eu-offering-api.kambicdn.com/offering/v2018/pafx3lv/event/live/open.json?lang=lv_LV&market=LV&client_id=2&channel_id=1&ncid=1731503164995';
-
-  try {
-    const response = await axios.get(url);
-    const data = response.data;
-
-    const liveEvents = data.liveEvents || [];
-    const x3000Datas: X3000Data[] = liveEvents.map((event: any) => {
-      const englishName = event.event.englishName;
-      const sport = event.event.sport;
-
-      const liveData = event.liveData || {};
-      const matchClock = liveData.matchClock || {};
-      const time = `${matchClock.minute || 'N/A'}:${matchClock.second || 'N/A'}`;
-
-      const scoreData = liveData.score || {};
-      const score = `${scoreData.home || 'N/A'}:${scoreData.away || 'N/A'}`;
-
-      const betOffer = event.mainBetOffer || { outcomes: [] };
-      const outcomes = betOffer.outcomes || [];
-
-      let odd1 = 0,
-        odd2 = 0,
-        odd3 = 0;
-      outcomes.forEach((outcome: any) => {
-        const oddName = outcome.englishLabel;
-        const oddValue = outcome.odds || 0;
-
-        if (oddName === '1') odd1 = oddValue / 1000;
-        if (oddName === 'X') odd2 = oddValue / 1000;
-        if (oddName === '2') odd3 = oddValue / 1000;
-      });
-
-      return {
-        name: englishName,
-        sport,
-        time,
-        score,
-        odd1,
-        odd2,
-        odd3,
-      };
-    });
-
-    return x3000Datas;
-  } catch (error) {
-    console.error('Failed to fetch x3000 data:', error);
-    return [];
-  }
-};
 
 // Fetch football by ID
 const fetchFootballById = async (
@@ -89,6 +36,7 @@ const fetchFootballById = async (
   betId: string
 ): Promise<void> => {
   const url = `https://eu-offering-api.kambicdn.com/offering/v2018/pafx3lv/listView/football/all/all/all/in-play.json?lang=en_GB&market=LV&client_id=2&channel_id=1&ncid=1732179377446&useCombined=true&useCombinedLive=true&category=${bettingTypeId}`;
+               
 
   try {
     const response = await axios.get(url);

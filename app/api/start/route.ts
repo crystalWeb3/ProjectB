@@ -5,7 +5,7 @@ let isWorkerTriggered = false;
 
 export async function GET() {
   if (!isWorkerTriggered) {
-    startBackgroundWorker();
+    await startBackgroundWorker();
     isWorkerTriggered = true; // Prevent re-triggering
     return NextResponse.json({ message: 'Background worker started' });
   } else {
