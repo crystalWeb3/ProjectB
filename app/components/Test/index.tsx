@@ -70,7 +70,7 @@ const Test = () => {
     useEffect(() => {
         const interval = setInterval(async () => {            
             await getData();
-        }, 2000);
+        }, 500);
 
         return () => clearInterval(interval); // Cleanup interval on component unmount
     }, []);
