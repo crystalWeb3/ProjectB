@@ -264,6 +264,7 @@ export const startBackgroundWorker = async () => {
   }
 
   await redis.set('serverOn', 1)
+  console.log(redis)
   console.log("Starting background worker...");
 
   startX3000Bot();
